@@ -12,6 +12,12 @@
     border-radius: 14px;
 }
 
+.with-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .sidebar-toggle:hover {
     cursor: pointer;
 }

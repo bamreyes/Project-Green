@@ -1,9 +1,42 @@
+function setupIterationTextSync(iterationSelection, body) {
+    
+    function updateIterationText() {
+        const isCollapsed = body.classList.contains('sidebar-collapsed');
+
+        if (iterationSelection) {
+            const options = iterationSelection.querySelectorAll('option');
+            options.forEach(option => {
+                if (option.value === 'all') {
+                    option.textContent = isCollapsed ? 'All' : 'All Iterations';
+                    return; 
+                }
+                const num = option.dataset.iterationNum; 
+
+                if (num) {
+                    option.textContent = isCollapsed ? num : `Iteration ${num}`;
+                }
+            });
+        }
+    }
+    const observer = new MutationObserver(mutationsList => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                updateIterationText();
+            }
+        }
+    });
+    observer.observe(body, { attributes: true });
+
+    updateIterationText();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const projectSelection = document.getElementById('projectSelection');
     const selectBtn = document.getElementById('selectAllCheckbox');
     const iterationSelection = document.getElementById('iterationSelection');
     const toggleSidebar = document.getElementById('sidebar-toggle');
     const search = document.getElementById('search-input');
+    const body = document.body;
 
     if (projectSelection != null) {
         projectSelection.addEventListener('submit', function(event) {
@@ -37,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    if (iterationSelection != null) {
+    if (iterationSelection) {
         document.getElementById('iterationSelection').addEventListener('change', function() {
             const selectedValue = document.getElementById('iterationSelection').value;
             console.log(selectedValue)
@@ -57,7 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
         });
+
+        setupIterationTextSync(iterationSelection, body);
     }
+
 
     document.querySelectorAll('.iteration-table-wrapper').forEach(wrapper => {
         let isDown = false;

@@ -14,6 +14,7 @@ body {
 
 /* --- SIDEBAR --- */
 .sidebar {
+    position: fixed;
     font-family: var(--font-poppins);
     display: flex;
     flex-direction: column;
@@ -30,6 +31,11 @@ body.sidebar-collapsed .sidebar {
     width: 88px;
 }
 
+body.sidebar-collapsed .main-content {
+    transition: margin-left 0.3s ease-in-out;
+    margin-left: 80px; 
+}
+
 /* --- MAIN CONTENT --- */
 .main-content {
     display: flex;
@@ -38,6 +44,20 @@ body.sidebar-collapsed .sidebar {
     overflow: visible;  
     margin-right: 24px;
     min-width: 0;
+    margin-left: 216px;
+    animation: fadein 0.3s ease-out 0s 1;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0.5;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .header {

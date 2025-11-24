@@ -3,13 +3,6 @@
 {% block content %}
 
 <div class="tableau-wrapper">
-    <label for="iterationSelection">Choose Iteration</label>
-    <select id = "iterationSelection">
-        <option value="all">All Iterations</option>
-        {% for i in iterations %}
-        <option value={{loop.index0}}>Iteration {{loop.index0}}</option>
-        {% endfor %}
-    </select>
     <!-- tableaus -->
     <div id = "iterations-section" class="iterations-wrapper">
         {% for iteration in iterations %}
