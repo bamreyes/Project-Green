@@ -1,0 +1,42 @@
+.optimized-cost-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 32px 24px;
+    background: linear-gradient(to right, var(--primary-color) 0%, #4a9d6e 50%, #007e5d 100%);
+    background-size: 200% 100%;
+    background-position: 0% 0%;
+    border-radius: 12px;
+    color: white;
+    transition: background-position 2s ease;
+    animation: sweep 7s ease-in-out;
+    flex-shrink: 0;
+    margin-bottom: 12px;
+}
+
+@keyframes sweep {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 0%; }
+    100% { background-position: 0% 0%; }
+}
+
+.optimized-cost-wrapper.infeasible {
+    background: linear-gradient(120deg, #f8c828 0%, #f8c828 40%, #ffd740 60%, #f0d566 70%, #ffd740 80%, #f8c828 90%, #f8c828 100%);
+    background-size: 200% 100%;
+    animation: shine 7s ease infinite;
+    transition: background-position 2s ease;
+}
+
+.optimized-cost-wrapper:hover,
+.optimized-cost-wrapper.infeasible:hover {
+    background-position: 100% 0%;
+}
+
+.cost-label {
+    font: var(--title-16);
+}
+
+.optimized-cost-value {
+    font-family: var(--font-inter);
+    font-size: 48px;
+}

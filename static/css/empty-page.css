@@ -1,0 +1,31 @@
+.empty-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    text-align: center;
+    padding: 40px;
+    gap: 16px;
+}
+
+.empty-page .empty-image {
+    max-width: 300px;
+    width: 50%; 
+    height: auto;
+    opacity: 0.5;
+    animation: changeopacity 3s ease-in-out infinite;
+}
+
+@keyframes changeopacity {
+    0% {opacity: 0.5}
+    50% {opacity: 0.35}
+    100% {opacity: 0.5}
+}
+
+.empty-page h1 {
+    font-size: 1.8rem;
+    font-family: var(--font-inter);
+    font-weight: 500;
+    margin: 0;
+}

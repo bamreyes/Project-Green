@@ -3,7 +3,19 @@ import json, os, numpy as np
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECTS_PATH = os.path.join(BASE_DIR, "data", "projects.json")
 
-MINIMUM = {"CO2": 1000, "NO": 35, "SO2": 25, "PM2_5": 20, "CH4": 60, "VOc": 45, "CO": 80, "NH3": 12, "BC": 6, "N2O": 10, "Cost": 0}
+MINIMUM = {"CO2": 1000, "NO": 35, "SO2": 25, "PM2_5": 20, "CH4": 60, "VOC": 45, "CO": 80, "NH3": 12, "BC": 6, "N2O": 10, "Cost": 0}
+POLLUTANT_LABELS = {
+    "CO2": "CO<sub>2</sub>",
+    "NO": "NO",
+    "SO2": "SO<sub>2</sub>",
+    "PM2_5": "PM<sub>2.5</sub>",
+    "CH4": "CH<sub>4</sub>",
+    "VOC": "VOC",
+    "CO": "CO",
+    "NH3": "NH<sub>3</sub>",
+    "BC": "BC",
+    "N2O": "N<sub>2</sub>O",
+}
 
 ROUND = 2
 
@@ -125,6 +137,22 @@ def getDualProblem(matrix):
     matrix = np.hstack([matrix[:,:-1], np.eye(matrix.shape[0], dtype=float), matrix[:,-1:]])
     return matrix
 
+def getPollutants(projects, units):
+    pollutantKeys = ["CO2", "NO", "SO2", "PM2_5", "CH4", "VOC", "CO", "NH3", "BC", "N2O"]
+
+    totals = {key: 0 for key in pollutantKeys}
+
+    for i, u in enumerate(units):
+        if u != 0:
+            project = projects[i]
+            for pollutant in pollutantKeys:
+                totals[pollutant] += project[pollutant] * u
+
+    for k in totals:
+        totals[k] = f"{round(totals[k], 2):,.2f}"
+
+    return totals
+
 def solve(data):
 
     # Filter projects
@@ -139,19 +167,31 @@ def solve(data):
     dualProblem = getDualProblem(solutionMatrix)
     result = simplex(dualProblem,projects_count)
     
-    #units = [round(i, ROUND) for i in result["solution"]]
-    units = result["solution"]
     iterations = result["iterations"]
+    units = result["solution"]
 
+    pollutants = getPollutants(projects, units);
+
+    target_pollutants = [i for i in MINIMUM.values()]
+    target_pollutants.pop()
+    pollutant_order = list(POLLUTANT_LABELS.keys())
+    
     # Solve for cost
     costs = [f"{round(projects[i]['Cost']*units[i], ROUND):,.2f}" for i in range(projects_count)]
     units = [round(i, ROUND) for i in units]
     optimized_cost = f"{float(iterations[-1]['basicSolution'][-1][-1]):,.2f}"
-    
-    print(optimized_cost)
 
-    return {"projects": projects,
-            "units":units,
-            "costs":costs,
-            "optimized_cost":optimized_cost,
-            "iterations": iterations}
+    print(pollutants)
+
+    
+    return {
+        "projects": projects,
+        "units": units,
+        "costs": costs,
+        "optimized_cost": optimized_cost,
+        "iterations": iterations,
+        "pollutant_name": POLLUTANT_LABELS,
+        "pollutants": pollutants,
+        "target_pollutants": target_pollutants,
+        "pollutant_order": pollutant_order
+    }

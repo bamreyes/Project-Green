@@ -47,8 +47,17 @@ def solver():
 
             session['iterations'] = result["iterations"]
             session['selected_projects'] = selected_projects
-            session['table_data'] = [result['projects'],result['units'],result['costs']]
+            session['table_data'] = [
+                result['projects'],
+                result['units'],
+                result['costs'],
+                result['pollutant_name'],
+                result['target_pollutants'],
+                result['pollutants'],
+                result['pollutant_order']
+            ]
             session['optimized_cost'] = result['optimized_cost']
+            session['pollutants'] = result['pollutants']
             session['feasible'] = True
 
             return jsonify({'success': True})
@@ -78,29 +87,6 @@ def tableau():
 def toggle_sidebar():
     session['sidebar_collapsed'] = not session.get('sidebar_collapsed', False)
     return jsonify({'collapsed': session['sidebar_collapsed']})
-
-import json
-import os
-from flask import request, jsonify
-
-# @app.route('/api/projects/add', methods=['POST'])
-# def add_project():
-#     try:
-#         new_project = request.get_json()
-
-#         with open(PROJECTS_PATH, 'r') as file:
-#             projects = json.load(file)
-            
-#         projects.append(new_project)
-        
-#         with open(PROJECTS_PATH, 'w') as file:
-#             json.dump(projects, file, indent=4)
-
-#         return jsonify({'success': True})
-
-#     except Exception as e:
-#         print(e)
-#         return jsonify({"error": str(e)})
 
 if __name__ == '__main__':
     app.run(debug=True) 

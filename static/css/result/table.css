@@ -1,0 +1,94 @@
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.result-table thead {
+    flex-shrink: 0;
+}
+
+.result-table tbody {
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    min-height: 0;
+    background-color: white;
+}
+
+.result-table thead,
+.result-table tbody tr {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.result-table th:first-child,
+.result-table td:first-child {
+    width: 50%;
+    min-width: 150px;
+}
+
+.result-table th:nth-child(2),
+.result-table td:nth-child(2) {
+    width: 20%;
+    min-width: 80px;
+    text-align: right;
+}
+
+.result-table th:nth-child(3),
+.result-table td:nth-child(3) {
+    width: 30%;
+    min-width: 80px;
+    text-align: right;
+}
+
+.result-table th {
+    background: #ecf5ee;
+    padding: 10px 12px;
+    text-align: left;
+    font: var(--title-12);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.result-table thead.infeasible th {
+    background: #cac16622;
+}
+
+.result-table td {
+    padding: 8px 12px;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.result-table td:last-child {   
+    padding-left: 2px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.result-table tr:last-child td {
+    border-bottom: none;
+}
+
+.result-table tbody tr:hover {
+    background: rgba(0, 126, 93, 0.05);
+}
+
+.result-table thead tr th:last-child {
+    border-radius: 0px 4px 0px 0px;
+}
+
+.result-table tbody tr .infeasible-message {
+    padding: 8px;
+    color: var(--black-color);
+}

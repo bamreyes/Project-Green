@@ -19,7 +19,7 @@
 
 .hero-title {
     font-family: var(--font-inter);
-    font-weight: 300px;
+    font-weight: 600;
     font-size: 72px;
     margin-bottom: 24px;
     line-height: 1.2;
@@ -30,7 +30,7 @@
     font-size: 22px;
     margin-bottom: 40px;
     opacity: 0.95;
-    font-weight: 300;
+    font-weight: 4  00;
     line-height: 1.4;
 }
 

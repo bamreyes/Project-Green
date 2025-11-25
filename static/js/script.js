@@ -75,8 +75,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const iterationSelection = document.getElementById('iterationSelection');
     const toggleSidebar = document.getElementById('sidebar-toggle');
     const search = document.getElementById('search-input');
+    const tables = document.querySelectorAll('.result-table-wrapper');
     const body = document.body;
-    const logoContainer = document.getElementById('sidebar-logo');
+    const buttons = document.querySelectorAll('.result-table-button');
+
+    toggleSidebar.addEventListener('click', function() {
+        body.classList.toggle('sidebar-collapsed');
+        fetch('/api/sidebar/toggle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+    });
 
     if (projectSelection) {
         projectSelection.addEventListener('submit', function(event) {
@@ -86,11 +95,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // sends form
             const formData = new FormData(projectSelection);
+            //if (![...formData.entries()].length) return;
 
             fetch('/solver', {method:'POST', body: formData }).then(() => {location.reload(); });
 
         })
     }
+
+    if (tables) {
+        tables.forEach((table, index) => {
+            if (index === 0) {
+                table.style.display = 'flex';
+                buttons[index]?.classList.add('active');
+            } else {
+                table.style.display = 'none';
+            }
+        });
+    }
+
+    buttons.forEach((button, index) => {
+        button.addEventListener('click', function() {
+            // Remove active from all buttons
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Hide all tables
+            tables.forEach(table => table.style.display = 'none');
+            
+            // Show selected table and set button as active
+            tables[index].style.display = 'flex';
+            button.classList.add('active');
+        });
+    });
+
 
     if (selectBtn) {
         const checkboxes = document.querySelectorAll('.project-checkbox');
@@ -134,9 +170,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setupIterationTextSync(iterationSelection, body);
     }
 
-
-
-
     if (search) {
         search.addEventListener('input', function() {
             const filter = this.value.toLowerCase();
@@ -152,15 +185,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
-    toggleSidebar.addEventListener('click', function() {
-        document.body.classList.toggle('sidebar-collapsed');
-        fetch('/api/sidebar/toggle', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        })
-    });
-
 
     document.querySelectorAll('.iteration-table-wrapper').forEach(wrapper => {
         let isDown = false;

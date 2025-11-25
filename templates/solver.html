@@ -58,12 +58,12 @@
         </form>
     </div>
 
+    {% if is_feasible != None%}
     <div class="result-main">
         <div id = "result" class="result-wrapper">
             <div class="optimized-cost-wrapper {% if is_feasible == False %}infeasible{% endif %}">
-                {% if is_feasible == True or is_feasible == None %}<div class="cost-label">Optimized Cost</div>{% endif %}
+                {% if is_feasible == True %}<div class="cost-label">Optimized Cost</div>{% endif %}
                 <div class="optimized-cost-value">
-                    {% if is_feasible == None %}$ 0{% endif %}
                     {% if is_feasible == True %}$ {{optimized_cost}}{% endif %}
                     {% if is_feasible == False %}Infeasible{% endif%}
 
@@ -71,15 +71,23 @@
                 
             </div>
 
+            {% if is_feasible == False %}
+            <div class="infeasible-wrapper">
+                <h1>These project selections aren’t compatible. Please pick another selection.</h1>
+            </div>
+
+            {% else %}
+            
+            <div class="result-table-tabs">
+                <button id="cost-table"class="result-table-button">Cost</button>
+                <button id="pollutants=table" class="result-table-button">Pollutants</button>
+            </div>
+
             <div class="result-table-wrapper">
+
                 <table class="result-table">
                     <thead class="{% if is_feasible == False %}infeasible{% endif %}">
 
-                    {% if is_feasible == False %}
-                    <tr> <th colspan="3" class="infeasible-message">Optimization is infeasible</td></tr>
-                    {% endif %}
-
-                    {% if is_feasible == True %}
                     <tr>
                         <th>Mitigation Project</th>
                         <th>Units</th>
@@ -98,15 +106,40 @@
                     </tr>
                     {% endif %}
                     {% endfor %}
-                    {% endif %}
-
-
                 </tbody>
 
                 </table>
             </div>
+
+            <div class="result-table-wrapper">
+                <table class="result-table">
+                    <thead class="{% if is_feasible == False %}infeasible{% endif %}">
+                        <tr>
+                            <th>Pollutant</th>
+                            <th>Target</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for key in table_data[6] %}
+                        <tr>
+                            <td>{{ table_data[3][key] | safe }}</td>
+                            <td>{{ table_data[4][loop.index0] }}</td>
+                            <td>{{ table_data[5][key] }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                </table>
+            </div>
+
+            {% endif %}
+
         </div>
+
     </div>
+    {% endif%}
 
 </div>
 {% endblock %}

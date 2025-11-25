@@ -1,0 +1,34 @@
+.result-table-tabs {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-bottom: -1px;
+    z-index: 2;
+    position: relative;
+}
+
+.result-table-button {
+    height: 36px;
+    padding: 8px 16px;
+    font: var(--title-14);
+    background: #f5f5f5;
+    border: 1px solid #eaeaea;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.result-table-button:hover {
+    background: #e8e8e8;
+}
+
+.result-table-button.active {
+    background: white;
+    color: var(--black-color);
+    font-weight: 500;
+    border-color: #eaeaea;
+    border-bottom: 1px solid white;
+    z-index: 3;
+}
