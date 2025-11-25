@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify, session, send_file
 from flask_session import Session
 import json
 from solver.simplex import solve, InfeasibleError
@@ -98,6 +98,11 @@ def tableau():
 def toggle_sidebar():
     session['sidebar_collapsed'] = not session.get('sidebar_collapsed', False)
     return jsonify({'collapsed': session['sidebar_collapsed']})
+
+# For downloading the manual
+@app.route('/download')
+def download():
+    return send_file('manual.pdf', as_attachment=True, download_name='manual.pdf')
 
 if __name__ == '__main__':
     app.run(debug=True)
