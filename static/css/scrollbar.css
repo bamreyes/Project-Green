@@ -16,7 +16,6 @@
     background: var(--primary-color);
 }
 
-/* Specific styling for tables and wrappers */
 .selection-table tbody::-webkit-scrollbar,
 .iteration-table tbody::-webkit-scrollbar,
 .result-table tbody::-webkit-scrollbar,
@@ -32,8 +31,6 @@
     background: rgb(242, 242, 242); 
     border-radius: 4px;
 }
-
-
 
 .selection-table tbody::-webkit-scrollbar-thumb:hover,
 .iteration-table tbody::-webkit-scrollbar-thumb:hover,

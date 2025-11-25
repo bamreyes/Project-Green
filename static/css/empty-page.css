@@ -17,8 +17,6 @@
     animation: changeopacity 3s ease-in-out infinite;
 }
 
-
-
 .empty-page h1 {
     font-size: 1.8rem;
     font-family: var(--font-inter);
